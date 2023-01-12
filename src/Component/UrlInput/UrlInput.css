@@ -1,0 +1,14 @@
+
+.formBackground {
+    background-color: #e5e5f7;
+    opacity: 0.8;
+    background-image:  linear-gradient(30deg, #f7a045 12%, transparent 12.5%, transparent 87%, #f7a045 87.5%, #f7a045), linear-gradient(150deg, #f7a045 12%, transparent 12.5%, transparent 87%, #f7a045 87.5%, #f7a045), linear-gradient(30deg, #f7a045 12%, transparent 12.5%, transparent 87%, #f7a045 87.5%, #f7a045), linear-gradient(150deg, #f7a045 12%, transparent 12.5%, transparent 87%, #f7a045 87.5%, #f7a045), linear-gradient(60deg, #f7a04577 25%, transparent 25.5%, transparent 75%, #f7a04577 75%, #f7a04577), linear-gradient(60deg, #f7a04577 25%, transparent 25.5%, transparent 75%, #f7a04577 75%, #f7a04577);
+    background-size: 40px 70px;
+    background-position: 0 0, 0 0, 20px 35px, 20px 35px, 0 0, 20px 35px;
+    
+}
+
+.inputform{
+    height:90%;	
+    width:90%;	
+}
