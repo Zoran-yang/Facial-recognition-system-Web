@@ -112,41 +112,45 @@ class App extends Component{
   }
 
   render(){
-    return !this.state.SignIn
-    ? ( !this.state.Register
-        ? (
-          (
+    return (
+    <>
+    <ParticlesBg type="cobweb" bg={true} />
+    {!this.state.SignIn
+      ? ( !this.state.Register
+          ? (
+            (
+              <>
+              <Logo />
+              <SignIn OnSignIn = {this.OnSignIn} OnRegister={this.OnRegister}/>
+              </>
+            )
+          )
+          : (
             <>
-            <ParticlesBg type="cobweb" bg={true} />
+            
             <Logo />
-            <SignIn OnSignIn = {this.OnSignIn} OnRegister={this.OnRegister}/>
+            <Register submitRegister = {this.submitRegister}/>
             </>
           )
-        )
-        : (
-          <>
-          <ParticlesBg type="cobweb" bg={true} />
-          <Logo />
-          <Register submitRegister = {this.submitRegister}/>
-          </>
-        )
-    )
-    : 
-    (
-      (
-        <>
-        <Navigation OnSignOut={this.OnSignOut}/>
-        <Logo />
-        <Rank />
-        <UrlSubmitForm onInputChange = {this.onInputChange} onInputSubmission = {this.onInputSubmission} />
-        <FaceRecognition imgUrl={this.state.imgUrl}  border={this.state.border}/>
-        <Footer />
-      </>
       )
-    )
-      
+      : 
+      (
+        (
+          <>
+          <Navigation OnSignOut={this.OnSignOut}/>
+          <Logo />
+          <Rank />
+          <UrlSubmitForm onInputChange = {this.onInputChange} onInputSubmission = {this.onInputSubmission} />
+          <FaceRecognition imgUrl={this.state.imgUrl}  border={this.state.border}/>
+          <Footer />
+        </>
+        )
+      )
     }
-
+    </>
+    )
+    }
+  
 }
 
 

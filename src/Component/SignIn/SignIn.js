@@ -3,7 +3,7 @@ import "tachyons"
 function SignIn({OnSignIn, OnRegister}){
     return(
         
-        <main className="flex justify-center content-center flex-wrap ma5">
+        <main className="flex justify-center content-center flex-wrap ma2">
             <div className=" measure pa4 black-80 shadow-5 br3" style={{backgroundColor : "rgba(255, 255, 255, 0.8)"}}>
                 <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                     <legend className="f4 fw6 ph0 mh0">Sign In</legend>
@@ -21,7 +21,7 @@ function SignIn({OnSignIn, OnRegister}){
                     <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6" type="submit" value="Sign in" onClick={OnSignIn}/>
                 </div>
                 <div className="lh-copy mt3">
-                    <a href="#0" className="f6 link dim black db" onClick={OnRegister}>Sign up</a>
+                    <p href="#0" className="f6 link dim black db pointer" onClick={OnRegister}>Register</p>
                     {/* <a href="#0" className="f6 link dim black db">Forgot your password?</a> */}
                 </div>
             </div>
