@@ -3,16 +3,15 @@ import SignIn from "../../Component/SignIn/SignIn"
 import UrlSubmitForm from "../../Component/UrlSubmitForm/UrlSubmitForm"
 import Footer from "../../Component/Footer/Footer"
 import Rank from "../../Component/Rank/Rank"
+import Register from "../../Component/Register/Register"
+import Navigation from "../../Component/Navigation/Navigation"
 import FaceRecognition from "../../Component/FaceRecognition/FaceRecognition"
 import ParticlesBg from 'particles-bg'
-// import Clarifai from "clarifai"
 import './App.css';
 import { Component } from "react"
 
 
-// const app = new Clarifai.App({
-//   apiKey: '711fade4e94b41baa2256fab4217ea64'
-//  });
+
 
 const USER_ID = '1tkesfpq048n';
 // Your PAT (Personal Access Token) can be found in the portal under Authentification
@@ -35,18 +34,20 @@ class App extends Component{
     this.state = {
       inputUrl : "" ,
       imgUrl : "" , 
+      border : {},
+      SignIn : false,
+      Register : false,
     }
   }
 
   onInputChange = (e) => {
-    console.log(e.target.value)
     this.setState({inputUrl : e.target.value})
   }
 
-  onInputSubmission = () => {
+  onInputSubmission = async () => {
     this.setState({imgUrl: this.state.inputUrl})
 
-    let IMAGE_URL = this.state.inputUrl;
+    let IMAGE_URL = this.state.inputUrl; 
     const raw = JSON.stringify({
       "user_app_id": {
           "user_id": USER_ID,
@@ -71,25 +72,80 @@ class App extends Component{
       body: raw
     };
 
-    fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions)
+    await fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions)
         .then(response => response.json())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+        .then(result => this.showFaceBorder(result))
+        .then(result => this.setState({border : result}))
+        .catch(error => console.log('error', error))
+
+    
+  }
+
+  showFaceBorder = (y) => {
+    const img = document.querySelector("#img")
+    if (img){
+      let x = y.outputs[0].data.regions[0].region_info.bounding_box
+
+      return {
+        top_row : x.top_row*img.clientHeight,
+        bottom_row : (1-x.bottom_row)*img.clientHeight,
+        left_col : x.left_col*img.clientWidth,
+        right_col : (1-x.right_col)*img.clientWidth,
+      }
+    }
+  }
+
+  OnSignIn = () =>{
+    this.setState({SignIn : true})
+  }
+
+  OnSignOut = () =>{
+    this.setState({SignIn : false})
+  }
+
+  OnRegister = () =>{
+    this.setState({Register : true})
+  }
+
+  submitRegister = () =>{
+    this.setState({Register : false})
+    this.setState({SignIn : true})
   }
 
   render(){
-    return(
-      <>
-        <ParticlesBg type="cobweb" bg={true} />
-        <SignIn />
+    return !this.state.SignIn
+    ? ( !this.state.Register
+        ? (
+          (
+            <>
+            <ParticlesBg type="cobweb" bg={true} />
+            <SignIn OnSignIn = {this.OnSignIn} OnRegister={this.OnRegister}/>
+            </>
+          )
+        )
+        : (
+          <>
+          <ParticlesBg type="cobweb" bg={true} />
+          <Register submitRegister = {this.submitRegister}/>
+          </>
+        )
+    )
+    : 
+    (
+      (
+        <>
+        <Navigation OnSignOut={this.OnSignOut}/>
         <Logo />
         <Rank />
         <UrlSubmitForm onInputChange = {this.onInputChange} onInputSubmission = {this.onInputSubmission} />
-        <FaceRecognition imgUrl= {this.state.imgUrl} />
+        <FaceRecognition imgUrl={this.state.imgUrl}  border={this.state.border}/>
         <Footer />
       </>
+      )
     )
-  }
+      
+    }
+
 }
 
 
