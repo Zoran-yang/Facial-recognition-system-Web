@@ -22,7 +22,7 @@ function SignIn({OnSignIn, OnRegister}){
                 </div>
                 <div className="lh-copy mt3">
                     <a href="#0" className="f6 link dim black db" onClick={OnRegister}>Sign up</a>
-                    <a href="#0" className="f6 link dim black db">Forgot your password?</a>
+                    {/* <a href="#0" className="f6 link dim black db">Forgot your password?</a> */}
                 </div>
             </div>
         </main>

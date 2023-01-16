@@ -1,3 +1,7 @@
+# All my updated notes are stored in Evernote, you can check it out from below
+
+updated notes : "https://www.evernote.com/shard/s608/sh/79d58439-2024-9c0b-9980-b59449fbe9c4/316084783b61a01b512d08e27c7840e9"
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

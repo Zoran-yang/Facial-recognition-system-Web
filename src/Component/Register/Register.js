@@ -2,7 +2,7 @@
 
 function Register({submitRegister}){
     return(
-        <div className="flex justify-center content-center flex-wrap ma6" >
+        <div className="flex justify-center content-center flex-wrap ma3" >
             <article className="flex justify-center content-center flex-wrap pa4 black-80 shadow-5 br3" style={{backgroundColor : "rgba(255, 255, 255, 0.8)"}}>
                 <div action="sign-up_submit" method="get" >
                     <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
@@ -17,7 +17,6 @@ function Register({submitRegister}){
                     </div>
                     </fieldset>
                     <div className="mt3"><input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6" type="submit" value="Sign Up" onClick={submitRegister}/></div>
-                    {/* <div className="mt3"><input className="b bg-transparent grow pointer f6 bn" type="submit" value="Register" onClick={OnRegister} /></div> */}
                 </div>
             </article>
         </div>

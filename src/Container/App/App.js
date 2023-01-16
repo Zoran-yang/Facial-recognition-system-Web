@@ -77,8 +77,7 @@ class App extends Component{
         .then(result => this.showFaceBorder(result))
         .then(result => this.setState({border : result}))
         .catch(error => console.log('error', error))
-
-    
+ 
   }
 
   showFaceBorder = (y) => {
@@ -119,6 +118,7 @@ class App extends Component{
           (
             <>
             <ParticlesBg type="cobweb" bg={true} />
+            <Logo />
             <SignIn OnSignIn = {this.OnSignIn} OnRegister={this.OnRegister}/>
             </>
           )
@@ -126,6 +126,7 @@ class App extends Component{
         : (
           <>
           <ParticlesBg type="cobweb" bg={true} />
+          <Logo />
           <Register submitRegister = {this.submitRegister}/>
           </>
         )
