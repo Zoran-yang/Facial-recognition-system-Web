@@ -40,9 +40,9 @@ app.get("", (req, res) =>{
 
 
 //使用者行為 : signin || 對應網路行為 : get || 結果 : 顯示成功或失敗
-app.post('/signIn', (req, res) => {
+app.post('/signin', (req, res) => {
   if (req.body.email === users[0].email && req.body.password === users[0].password){
-    res.json('Welcome your web.')
+    res.json('Welcome to your web.')
   }else{
     res.json("Fail to sign in")
   }
@@ -50,7 +50,7 @@ app.post('/signIn', (req, res) => {
 
 
 //使用者行為 : Register || 對應網路行為 : post || 結果 : 傳輸user資料
-app.post("/", (req, res) => {
+app.post("/register", (req, res) => {
   if (req.body.email !== users[0].email && req.body.password !== users[0].password){
     res.send('Work Done.')
   }else{
