@@ -8,7 +8,7 @@ const users = [
     id : "0",
     name : "Jack",
     email : "Jack@gmail",
-    password : "Jack123",
+    password : "z",
     uploadTime : 0,
     registerTime : new Date()
   },
@@ -42,7 +42,7 @@ app.get("", (req, res) =>{
 //使用者行為 : signin || 對應網路行為 : get || 結果 : 顯示成功或失敗
 app.post('/signin', (req, res) => {
   if (req.body.email === users[0].email && req.body.password === users[0].password){
-    res.json('Welcome to your web.')
+    res.json(users[0]);
   }else{
     res.json("Fail to sign in")
   }
@@ -73,7 +73,6 @@ app.get("/profile/:id", (req, res) => {
   users.forEach((user) => {
       if (user.id === id){
         found = true
-        user.uploadTime++
         return res.json(user)
       }
     }
@@ -84,16 +83,17 @@ app.get("/profile/:id", (req, res) => {
 
 //使用者行為 : update 辨識圖片同時在database中更新辨識圖片的次數 || 對應網路行為 : put || 結果 : 更新使用者辨識圖片的次數
 app.put("/image", (req, res) => {
-  const {id} = req.params
+  const {id} = req.body
   let found = false
   users.forEach((user) => {
       if (user.id === id){
         found = true
+        user.uploadTime++
         return res.json(user)
       }
     }
   )
-  if (!found) {res.status(400).send("user not found")}
+  if (!found) {res.status(400).json("user not found")}
 })
 
 

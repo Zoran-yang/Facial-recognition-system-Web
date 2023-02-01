@@ -18,7 +18,7 @@ class SignIn extends Component{
         this.setState({signinPassword : e.target.value} )
     }
 
-    onSumbit = () => {
+    onSumbitSignIn = () => {
         fetch("http://localhost:3000/signin", 
             
             {
@@ -32,8 +32,9 @@ class SignIn extends Component{
         )
         .then((res) => res.json())
         .then((data) =>{
-                if (data === 'Welcome to your web.'){
+                if (data.id){
                     this.props.OnSignIn()
+                    this.props.loadUser(data)
                 }else{
                     console.log(data)
                 }
@@ -72,7 +73,7 @@ class SignIn extends Component{
                         <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6" 
                             type="submit" 
                             value="Sign in" 
-                            onClick={this.onSumbit}
+                            onClick={this.onSumbitSignIn}
                             />
                     </div>
                     <div className="lh-copy mt3">

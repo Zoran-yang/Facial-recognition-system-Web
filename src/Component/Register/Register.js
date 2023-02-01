@@ -42,7 +42,7 @@ class Register extends Component{
         .then((data) =>{
                 if (data === 'Work Done.'){
                     this.props.submitRegister()
-                    this.props.loadUser()
+                    this.props.loadUser(data)
                 }else{
                     console.log(data)
                 }

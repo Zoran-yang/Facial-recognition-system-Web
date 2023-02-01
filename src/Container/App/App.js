@@ -37,7 +37,7 @@ class App extends Component{
       border : {},
       SignIn : false,
       Register : false,
-      user : {
+      userInfo : {
         id : "",
         name : "",
         email : "",
@@ -49,7 +49,7 @@ class App extends Component{
 
   loadUser = (data) => {
     const {id , name, email, uploadTime, registerTime} = data
-    this.setState({user : {
+    this.setState({userInfo : {
         id : id,
         name : name,
         email : email,
@@ -63,7 +63,7 @@ class App extends Component{
     this.setState({inputUrl : e.target.value})
   }
 
-  onInputSubmission = async () => {
+  onPictureSubmit = async () => {
     this.setState({imgUrl: this.state.inputUrl})
 
     let IMAGE_URL = this.state.inputUrl; 
@@ -96,7 +96,26 @@ class App extends Component{
         .then(result => this.showFaceBorder(result))
         .then(result => this.setState({border : result}))
         .catch(error => console.log('error', error))
- 
+
+    await fetch("http://localhost:3000/image",
+      {
+        method: 'PUT', 
+        headers : {'Content-Type':'application/json'},
+        body : JSON.stringify(
+            {
+                "id" : this.state.userInfo.id,
+            }
+        )
+      }
+    ).then((res) => res.json())
+    .then((data) =>{
+        if (data){
+          this.setState(Object.assign(this.state.userInfo,data))
+        }
+      }
+    ).catch(console.log)
+
+
   }
 
   showFaceBorder = (y) => {
@@ -140,7 +159,7 @@ class App extends Component{
             (
               <>
               <Logo />
-              <SignIn OnSignIn = {this.OnSignIn} OnRegister={this.OnRegister}/>
+              <SignIn loadUser ={this.loadUser} OnSignIn = {this.OnSignIn} OnRegister={this.OnRegister}/>
               </>
             )
           )
@@ -158,8 +177,8 @@ class App extends Component{
           <>
           <Navigation OnSignOut={this.OnSignOut}/>
           <Logo />
-          <Rank />
-          <UrlSubmitForm onInputChange = {this.onInputChange} onInputSubmission = {this.onInputSubmission} />
+          <Rank userName = {this.state.userInfo.name} userUploadTime = {this.state.userInfo.uploadTime}/>
+          <UrlSubmitForm onInputChange = {this.onInputChange} onPictureSubmit = {this.onPictureSubmit} />
           <FaceRecognition imgUrl={this.state.imgUrl}  border={this.state.border}/>
           <Footer />
         </>

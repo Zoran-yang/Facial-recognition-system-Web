@@ -1,9 +1,9 @@
 
-function Rank(){
+function Rank({userName, userUploadTime}){
     return(
         <div className="tc f4">
-            <p>{"Hi Zoran, Your current rank is ..."}</p>
-            <p>{"#5"}</p>
+            <p>{`Hi ${userName} , Your current entry count is ...`}</p>
+            <p>{userUploadTime}</p>
         </div>
     )
 }
