@@ -35,7 +35,7 @@ app.use(express.json())
 app.use(cors())
 
 app.get("", (req, res) =>{
-  console.log("Connected")
+  res.send(users);
 })
 
 
@@ -52,9 +52,17 @@ app.post('/signin', (req, res) => {
 //使用者行為 : Register || 對應網路行為 : post || 結果 : 傳輸user資料
 app.post("/register", (req, res) => {
   if (req.body.email !== users[0].email && req.body.password !== users[0].password){
-    res.send('Work Done.')
+    users.push({
+      id : users[users.length-1].id +1,
+      name : req.body.name,
+      email : req.body.email,
+      password : req.body.password,
+      uploadTime : 0,
+      registerTime : new Date(),
+    })
+    res.json('Work Done.')
   }else{
-    res.send("error")
+    res.json("error")
   }
 })
 

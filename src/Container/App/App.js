@@ -37,7 +37,26 @@ class App extends Component{
       border : {},
       SignIn : false,
       Register : false,
+      user : {
+        id : "",
+        name : "",
+        email : "",
+        uploadTime : "",
+        registerTime : "",
+      }
     }
+  }
+
+  loadUser = (data) => {
+    const {id , name, email, uploadTime, registerTime} = data
+    this.setState({user : {
+        id : id,
+        name : name,
+        email : email,
+        uploadTime : uploadTime,
+        registerTime : registerTime,
+      }
+    })
   }
 
   onInputChange = (e) => {
@@ -129,7 +148,7 @@ class App extends Component{
             <>
             
             <Logo />
-            <Register submitRegister = {this.submitRegister}/>
+            <Register loadUser ={this.loadUser} submitRegister = {this.submitRegister}/>
             </>
           )
       )
