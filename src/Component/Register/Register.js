@@ -25,7 +25,6 @@ class Register extends Component{
 
     onSumbitRigister = () => {
         fetch("http://localhost:3000/register", 
-            
             {
                 method: 'POST', 
                 headers : {'Content-Type':'application/json'},
@@ -40,7 +39,7 @@ class Register extends Component{
         )
         .then((res) => res.json())
         .then((data) =>{
-                if (data === 'Work Done.'){
+                if (data){
                     this.props.submitRegister()
                     this.props.loadUser(data)
                 }else{

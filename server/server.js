@@ -1,6 +1,17 @@
 import express from "express"
 import cors from "cors"
+import knex from 'knex'
 const app = express();
+
+const db = knex({
+  client: 'pg',
+  connection: {
+    host : '127.0.0.1',
+    user : 'postgres',
+    password : 'test',
+    database : 'Facial-recognition-system'
+  }
+});
 
 
 const users = [
@@ -51,19 +62,22 @@ app.post('/signin', (req, res) => {
 
 //使用者行為 : Register || 對應網路行為 : post || 結果 : 傳輸user資料
 app.post("/register", (req, res) => {
-  if (req.body.email !== users[0].email && req.body.password !== users[0].password){
-    users.push({
-      id : users[users.length-1].id +1,
-      name : req.body.name,
-      email : req.body.email,
-      password : req.body.password,
-      uploadTime : 0,
-      registerTime : new Date(),
-    })
-    res.json('Work Done.')
-  }else{
-    res.json("error")
-  }
+  const {name, email, password} = req.body
+  db("userinfo").returning("*").insert(
+    {
+      name : name,
+      email: email,
+      jointime: new Date()
+    }
+  ).then((data) =>{
+      res.send(data);
+      res.json('Work Done.');
+    }
+  )
+  .catch((err) => {
+    console.log(err)
+    console.log("Register failed")
+  })
 })
 
 //使用者行為 : get users's own page || 對應網路行為 : get || 結果 : 返回user資料
