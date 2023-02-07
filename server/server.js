@@ -1,6 +1,7 @@
 import express from "express"
 import cors from "cors"
 import knex from 'knex'
+import bcrypt from "bcrypt-nodejs"
 const app = express();
 
 const db = knex({
@@ -52,29 +53,48 @@ app.get("", (req, res) =>{
 
 //使用者行為 : signin || 對應網路行為 : get || 結果 : 顯示成功或失敗
 app.post('/signin', (req, res) => {
-  if (req.body.email === users[0].email && req.body.password === users[0].password){
-    res.json(users[0]);
-  }else{
-    res.json("Fail to sign in")
-  }
+  const {email, password} = req.body
+  // if (req.body.email === users[0].email && req.body.password === users[0].password){
+  //   res.json(users[0]);
+  // }else{
+  //   res.json("Fail to sign in")
+  // }
+  db("login").select("*").where("email",email).then((data) => {
+    if (bcrypt.compareSync(password, data[0].hash)){
+      return db("login").select("*").where("email",email).then((loginUser)=>{
+                  res.json(loginUser[0]);
+                })
+    }else{
+      res.status(400).json("wrong login Info")
+    }
+  }).catch((err)=>{
+    console.log(err)
+    res.status(400).json("system error")
+  })
 })
 
 
 //使用者行為 : Register || 對應網路行為 : post || 結果 : 傳輸user資料
 app.post("/register", (req, res) => {
   const {name, email, password} = req.body
+  const hash = bcrypt.hashSync(password);
   db.transaction(function(trx){
-    
-
+    return trx.insert({
+      email : email,
+      hash : hash
+    })
+    .into("login")
+    .then(() => {
+      return trx("userinfo").returning("*").insert(
+        {
+          name : name,
+          email: email,
+          jointime: new Date()
+        }
+      )
+    })
   })
-
-  db("userinfo").returning("*").insert(
-    {
-      name : name,
-      email: email,
-      jointime: new Date()
-    }
-  ).then((user) =>{
+  .then((user) =>{
       res.json(user);
     }
   )
