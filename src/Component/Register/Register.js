@@ -39,14 +39,18 @@ class Register extends Component{
         )
         .then((res) => res.json())
         .then((data) =>{
-                if (data){
+                if (data[0].name){ //檢查回傳資料非"Register failed"
                     this.props.submitRegister()
-                    this.props.loadUser(data)
+                    this.props.loadUser(data[0])
                 }else{
                     console.log(data)
+
                 }
             }
-        ).catch(console.log)
+        ).catch((err)=>{
+            console.log(err)
+            console.log("Register error")
+        })
     }
 
 

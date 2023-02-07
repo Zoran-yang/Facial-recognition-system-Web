@@ -41,19 +41,19 @@ class App extends Component{
         id : "",
         name : "",
         email : "",
-        uploadTime : "",
+        entries : "",
         registerTime : "",
       }
     }
   }
 
   loadUser = (data) => {
-    const {id , name, email, uploadTime, registerTime} = data
+    const {id , name, email, entries, registerTime} = data
     this.setState({userInfo : {
         id : id,
         name : name,
         email : email,
-        uploadTime : uploadTime,
+        entries : entries,
         registerTime : registerTime,
       }
     })
@@ -114,8 +114,6 @@ class App extends Component{
         }
       }
     ).catch(console.log)
-
-
   }
 
   showFaceBorder = (y) => {
@@ -177,7 +175,7 @@ class App extends Component{
           <>
           <Navigation OnSignOut={this.OnSignOut}/>
           <Logo />
-          <Rank userName = {this.state.userInfo.name} userUploadTime = {this.state.userInfo.uploadTime}/>
+          <Rank userName = {this.state.userInfo.name} userEntries = {this.state.userInfo.entries}/>
           <UrlSubmitForm onInputChange = {this.onInputChange} onPictureSubmit = {this.onPictureSubmit} />
           <FaceRecognition imgUrl={this.state.imgUrl}  border={this.state.border}/>
           <Footer />

@@ -2,7 +2,7 @@
 import SumbitButtom from "../SumbitButtom/SumbitButtom"
 import "./UrlInput.css"
 
-function UrlForm({onInputChange, onInputSubmission}){
+function UrlForm({onInputChange, onPictureSubmit}){
     return(
         <div className="flex items-center justify-center">
             <div className="flex items-center justify-center shadow-5 pa3 br3 formBackground" >       
@@ -11,7 +11,7 @@ function UrlForm({onInputChange, onInputSubmission}){
                         <input id="name" className="input-reset ba b--black-20 pa2" type="text" placeholder="Your Picture Url" onChange={onInputChange}/>
                     </div>
                 </form>
-                <SumbitButtom onInputSubmission={onInputSubmission}/>
+                <SumbitButtom onPictureSubmit={onPictureSubmit}/>
             </div>
             
         </div>

@@ -63,51 +63,64 @@ app.post('/signin', (req, res) => {
 //使用者行為 : Register || 對應網路行為 : post || 結果 : 傳輸user資料
 app.post("/register", (req, res) => {
   const {name, email, password} = req.body
+  db.transaction(function(trx){
+    
+
+  })
+
   db("userinfo").returning("*").insert(
     {
       name : name,
       email: email,
       jointime: new Date()
     }
-  ).then((data) =>{
-      res.send(data);
-      res.json('Work Done.');
+  ).then((user) =>{
+      res.json(user);
     }
   )
   .catch((err) => {
     console.log(err)
-    console.log("Register failed")
+    res.status(400).json("Register failed")
   })
 })
 
 //使用者行為 : get users's own page || 對應網路行為 : get || 結果 : 返回user資料
 app.get("/profile/:id", (req, res) => {
   const {id} = req.params
-  let found = false
-  users.forEach((user) => {
-      if (user.id === id){
-        found = true
-        return res.json(user)
+  db("userinfo").returning("*").where('id', id)
+    .then((data) => {
+        if(data.length){
+          res.json(data[0])
+        }
+        else{
+          res.status(400).json("wrong id")
+        }
       }
-    }
-  )
-  if (!found) {res.status(400).send("user not found")}
+    ).catch((err)=>{
+        console.log(err)
+        res.status(400).json("system error")
+      }
+    )
 })
+
+
 
 
 //使用者行為 : update 辨識圖片同時在database中更新辨識圖片的次數 || 對應網路行為 : put || 結果 : 更新使用者辨識圖片的次數
 app.put("/image", (req, res) => {
   const {id} = req.body
-  let found = false
-  users.forEach((user) => {
-      if (user.id === id){
-        found = true
-        user.uploadTime++
-        return res.json(user)
+  db("userinfo").where('id', '=', id).increment("entries",1).returning("*").then((data) => {
+      if(data.length){
+        res.json(data[0])
       }
-    }
-  )
-  if (!found) {res.status(400).json("user not found")}
+      else{
+        res.status(400).json("wrong id")
+      }
+    }).catch((err)=>{
+        console.log(err)
+        res.status(400).json("system error")
+      }
+    )
 })
 
 
