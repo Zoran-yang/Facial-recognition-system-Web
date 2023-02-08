@@ -26,25 +26,27 @@ const MODEL_VERSION_ID = '6dc7e46bc9124c5c8824be4822abe105';
 // // this will default to the latest version_id
 
 
+const originalState = {
+  inputUrl : "" ,
+  imgUrl : "" , 
+  border : {},
+  SignIn : false,
+  Register : false,
+  userInfo : {
+    id : "",
+    name : "",
+    email : "",
+    entries : "",
+    registerTime : "",
+  }
+}
+
 
 
 class App extends Component{
   constructor(){
     super()
-    this.state = {
-      inputUrl : "" ,
-      imgUrl : "" , 
-      border : {},
-      SignIn : false,
-      Register : false,
-      userInfo : {
-        id : "",
-        name : "",
-        email : "",
-        entries : "",
-        registerTime : "",
-      }
-    }
+    this.state = originalState
   }
 
   loadUser = (data) => {
@@ -65,6 +67,7 @@ class App extends Component{
 
   onPictureSubmit = async () => {
     this.setState({imgUrl: this.state.inputUrl})
+    console.log(originalState)
 
     let IMAGE_URL = this.state.inputUrl; 
     const raw = JSON.stringify({
@@ -135,7 +138,7 @@ class App extends Component{
   }
 
   OnSignOut = () =>{
-    this.setState({SignIn : false})
+    this.setState(originalState)
   }
 
   OnRegister = () =>{
