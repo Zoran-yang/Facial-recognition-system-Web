@@ -15,27 +15,6 @@ const db = knex({
 });
 
 
-const users = [
-  {
-    id : "0",
-    name : "Jack",
-    email : "Jack@gmail",
-    password : "z",
-    uploadTime : 0,
-    registerTime : new Date()
-  },
-  {
-    id : "1",
-    name : "Tom",
-    email : "Tom@gmail",
-    password : "Tom123",
-    uploadTime : 0,
-    registerTime : new Date()
-  }
-] 
-
-
-
 //監聽使用者需求
 app.listen(3000, () => {
   console.log(`Server is working!!!!!!!!!`)
@@ -46,22 +25,14 @@ app.use(express.json())
 // 跨網域需求(讓撰寫者可以在瀏覽器上測試全端專案)
 app.use(cors())
 
-app.get("", (req, res) =>{
-  res.send(users);
-})
-
 
 //使用者行為 : signin || 對應網路行為 : get || 結果 : 顯示成功或失敗
 app.post('/signin', (req, res) => {
   const {email, password} = req.body
-  // if (req.body.email === users[0].email && req.body.password === users[0].password){
-  //   res.json(users[0]);
-  // }else{
-  //   res.json("Fail to sign in")
-  // }
   db("login").select("*").where("email",email).then((data) => {
-    if (bcrypt.compareSync(password, data[0].hash)){
-      return db("login").select("*").where("email",email).then((loginUser)=>{
+    const isVaild = bcrypt.compareSync(password, data[0].hash)
+    if (isVaild){
+      return db("userinfo").select("*").where("email",email).then((loginUser)=>{
                   res.json(loginUser[0]);
                 })
     }else{
