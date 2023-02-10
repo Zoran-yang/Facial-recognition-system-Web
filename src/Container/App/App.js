@@ -110,7 +110,8 @@ class App extends Component{
             }
         )
       }
-    ).then((res) => res.json())
+    )
+    .then((res) => res.json())
     .then((data) =>{
         if (data){
           this.setState(Object.assign(this.state.userInfo,data))

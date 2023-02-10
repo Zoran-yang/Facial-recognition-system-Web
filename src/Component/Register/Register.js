@@ -44,7 +44,6 @@ class Register extends Component{
                     this.props.loadUser(data[0])
                 }else{
                     console.log(data)
-
                 }
             }
         ).catch((err)=>{
