@@ -2,6 +2,7 @@
 
 const handleRegister = (req, res, bcrypt, db) => {
     const {name, email, password} = req.body
+    if (!name || !email || !password) {return res.status(400).json("blank register info")}
     const hash = bcrypt.hashSync(password);
     db.transaction(function(trx){
       return trx.insert({
@@ -29,4 +30,4 @@ const handleRegister = (req, res, bcrypt, db) => {
     })
   }
 
-  export {handleRegister} 
+  module.exports = {handleRegister} 

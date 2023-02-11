@@ -1,6 +1,7 @@
 
 const handleSignin = (req, res, bcrypt, db) => {
-    const {email, password} = req.body
+  const {email, password} = req.body
+  if (!email || !password) {return res.status(400).json("blank signin info")}
   db("login").select("*").where("email",email).then((data) => {
     const isVaild = bcrypt.compareSync(password, data[0].hash)
     if (isVaild){
@@ -16,4 +17,4 @@ const handleSignin = (req, res, bcrypt, db) => {
   })
 }
 
-export {handleSignin};
+module.exports = {handleSignin};

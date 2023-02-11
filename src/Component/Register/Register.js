@@ -10,7 +10,6 @@ class Register extends Component{
         }
     }
 
-
     onNameChange = (e) => {
         this.setState({name : e.target.value} )
     }

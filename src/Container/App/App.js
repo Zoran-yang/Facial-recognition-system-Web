@@ -11,21 +11,6 @@ import './App.css';
 import { Component } from "react"
 
 
-
-
-const USER_ID = '1tkesfpq048n';
-// Your PAT (Personal Access Token) can be found in the portal under Authentification
-const PAT = '711fade4e94b41baa2256fab4217ea64';
-const APP_ID = 'Face-recognition';
-// Change these to whatever model and image URL you want to use
-const MODEL_ID = 'f76196b43bbd45c99b4f3cd8e8b40a8a';
-const MODEL_VERSION_ID = '6dc7e46bc9124c5c8824be4822abe105';    
-
-// // NOTE: MODEL_VERSION_ID is optional, you can also call prediction with the MODEL_ID only
-// // https://api.clarifai.com/v2/models/{YOUR_MODEL_ID}/outputs
-// // this will default to the latest version_id
-
-
 const originalState = {
   inputUrl : "" ,
   imgUrl : "" , 
@@ -40,7 +25,6 @@ const originalState = {
     registerTime : "",
   }
 }
-
 
 
 class App extends Component{
@@ -65,40 +49,44 @@ class App extends Component{
     this.setState({inputUrl : e.target.value})
   }
 
+  showFaceBorder = (y) => {
+    const img = document.querySelector("#img")
+    if (img){
+        let x = y
+  
+        return {
+            top_row : x.top_row*img.clientHeight,
+            bottom_row : (1-x.bottom_row)*img.clientHeight,
+            left_col : x.left_col*img.clientWidth,
+            right_col : (1-x.right_col)*img.clientWidth,
+        }
+    }
+  }
+
   onPictureSubmit = async () => {
     this.setState({imgUrl: this.state.inputUrl})
-    console.log(originalState)
-
     let IMAGE_URL = this.state.inputUrl; 
-    const raw = JSON.stringify({
-      "user_app_id": {
-          "user_id": USER_ID,
-          "app_id": APP_ID
-      },
-      "inputs": [
-          {
-              "data": {
-                  "image": {
-                      "url": IMAGE_URL
-                  }
-              }
-          }
-      ]
-    });
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Key ' + PAT
-      },
-      body: raw
-    };
 
-    await fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions)
-        .then(response => response.json())
-        .then(result => this.showFaceBorder(result))
-        .then(result => this.setState({border : result}))
-        .catch(error => console.log('error', error))
+    await fetch("http://localhost:3000/imageAPI",
+      {
+        method: 'POST', 
+        headers : {'Content-Type':'application/json'},
+        body : JSON.stringify(
+            {
+                "IMAGE_URL" :IMAGE_URL
+            }
+        )
+      }
+    )
+    .then((res) => res.json())
+    .then((fetchInfo) =>{
+        if (fetchInfo){
+          this.setState(Object.assign(this.state.border,this.showFaceBorder(fetchInfo)))    
+          console.log( this.state )
+        }    
+      }
+    ).catch(console.log)
+
 
     await fetch("http://localhost:3000/image",
       {
@@ -107,31 +95,19 @@ class App extends Component{
         body : JSON.stringify(
             {
                 "id" : this.state.userInfo.id,
+                "IMAGE_URL" :IMAGE_URL
             }
         )
       }
     )
     .then((res) => res.json())
-    .then((data) =>{
-        if (data){
-          this.setState(Object.assign(this.state.userInfo,data))
-        }
+    .then((fetchInfo) =>{
+        if (fetchInfo){
+          this.setState(Object.assign(this.state.userInfo,fetchInfo.data))    
+          console.log( this.state )
+        }     
       }
     ).catch(console.log)
-  }
-
-  showFaceBorder = (y) => {
-    const img = document.querySelector("#img")
-    if (img){
-      let x = y.outputs[0].data.regions[0].region_info.bounding_box
-
-      return {
-        top_row : x.top_row*img.clientHeight,
-        bottom_row : (1-x.bottom_row)*img.clientHeight,
-        left_col : x.left_col*img.clientWidth,
-        right_col : (1-x.right_col)*img.clientWidth,
-      }
-    }
   }
 
   OnSignIn = () =>{

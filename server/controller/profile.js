@@ -19,4 +19,4 @@ const handleProfile = (req, res, db) => {
   }
 
 
-  export {handleProfile}
+  module.exports = {handleProfile}
