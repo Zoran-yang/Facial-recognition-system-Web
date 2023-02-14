@@ -82,7 +82,6 @@ class App extends Component{
     .then((fetchInfo) =>{
         if (fetchInfo){
           this.setState(Object.assign(this.state.border,this.showFaceBorder(fetchInfo)))    
-          console.log( this.state )
         }    
       }
     ).catch(console.log)
@@ -104,7 +103,6 @@ class App extends Component{
     .then((fetchInfo) =>{
         if (fetchInfo){
           this.setState(Object.assign(this.state.userInfo,fetchInfo.data))    
-          console.log( this.state )
         }     
       }
     ).catch(console.log)
