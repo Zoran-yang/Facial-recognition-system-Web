@@ -20,7 +20,12 @@ const db = knex({
 });
 
 //監聽使用者需求
-app.listen(3000, () => {
+let PORT = process.env.PORT;
+if (PORT == null || PORT == "") {
+  PORT = 8000;
+}
+
+app.listen(PORT, () => {
   console.log(`Server is working!!!!!!!!!`)
 })
 
