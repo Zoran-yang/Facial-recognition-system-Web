@@ -67,7 +67,7 @@ class App extends Component{
     this.setState({imgUrl: this.state.inputUrl})
     let IMAGE_URL = this.state.inputUrl; 
 
-    await fetch("http://localhost:3000/imageAPI",
+    await fetch("https://facial-recognition-system-web.herokuapp.com/imageAPI",
       {
         method: 'POST', 
         headers : {'Content-Type':'application/json'},
@@ -87,7 +87,7 @@ class App extends Component{
     ).catch(console.log)
 
 
-    await fetch("http://localhost:3000/image",
+    await fetch("https://facial-recognition-system-web.herokuapp.com/image",
       {
         method: 'PUT', 
         headers : {'Content-Type':'application/json'},
@@ -102,7 +102,7 @@ class App extends Component{
     .then((res) => res.json())
     .then((fetchInfo) =>{
         if (fetchInfo){
-          this.setState(Object.assign(this.state.userInfo,fetchInfo.data))    
+          this.setState(Object.assign(this.state.userInfo,fetchInfo))    
         }     
       }
     ).catch(console.log)

@@ -23,7 +23,7 @@ class Register extends Component{
     }
 
     onSumbitRigister = () => {
-        fetch("http://localhost:3000/register", 
+        fetch("https://facial-recognition-system-web.herokuapp.com/register", 
             {
                 method: 'POST', 
                 headers : {'Content-Type':'application/json'},
