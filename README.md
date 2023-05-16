@@ -18,7 +18,7 @@ From your command line, first clone this repo:
 
 ```
 # Clone the repository
-$ git clone https://github.com/cobidev/simplefolio
+$ git clone https://github.com/Zoran-yang/Facial-recognition-system-Web.git
 
 # Move into the repository
 $ cd Facial-recognition-system-Web
