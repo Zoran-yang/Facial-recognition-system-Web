@@ -21,7 +21,7 @@ From your command line, first clone this repo:
 $ git clone https://github.com/cobidev/simplefolio
 
 # Move into the repository
-$ cd simplefolio
+$ cd Facial-recognition-system-Web
 
 # Remove the current origin repository
 $ git remote remove origin
